@@ -1,0 +1,88 @@
+﻿@using ManagementModule.EntityModel
+@model ProductIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Product Listing</h1>
+
+
+
+<form asp-controller="Products" asp-action="Index">
+    <div class="input-group mb-2">
+        <span class="input-group-text fs-7">Name</span>
+        @Html.TextBoxFor(x => x.Filter.SearchTerm, "", new {@class = "form-control", placeholder = "Product name"})
+        <div class="input-group-text">
+            @Html.CheckBoxFor(x => x.Filter.Active, new {@class = "form-check-input me-2"})
+            Active?
+        </div>
+    </div>
+    <div class="input-group mb-2">
+        <span class="input-group-text">Min. Price</span>
+        @Html.TextBoxFor(x => x.Filter.PriceMin, "", new { @class = "form-control", placeholder = "0.00" })
+        <span class="input-group-text">Max. Price</span>
+        @Html.TextBoxFor(x => x.Filter.PriceMax, "", new { @class = "form-control", placeholder = "1000.00" })
+    </div>
+    <div class="input-group mb-2">
+        <span class="input-group-text">Min. Stock</span>
+        @Html.TextBoxFor(x => x.Filter.StockMin, "", new { @class = "form-control", placeholder = "0" })
+        <span class="input-group-text">Max. Stock</span>
+        @Html.TextBoxFor(x => x.Filter.StockMax, "", new { @class = "form-control", placeholder = "100" })
+    </div>
+    <input class="btn btn-sm btn-secondary" type="submit" value="Search" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Products) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add new product</a>
+</p>
